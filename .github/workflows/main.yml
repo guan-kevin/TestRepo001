@@ -1,0 +1,20 @@
+name: Main
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '${{ env.VERSION }}'
+      - run: |
+          if [[ $VERSION == 18 ]]; then
+            exit 1
+          fi
+ 
